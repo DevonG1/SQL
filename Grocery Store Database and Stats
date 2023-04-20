@@ -1,0 +1,22 @@
+create table goods (id integer primary key, name text,price integer, quantity integer, aisle integer, rating integer);
+
+insert into goods values (1, "Milk",3.99, 20, 26, 5);
+insert into goods values (2, "Peas", .99,100, 23, 4);
+insert into goods values (3, "Flour",5.99 , 26, 21, 6);
+insert into goods values (4, "Oil", 3.99, 15, 21, 5);
+insert into goods values (5, "Fish",8.35, 35, 21, 5);
+
+--display the database ordered by ailse. 
+select * from goods 
+  order by aisle;
+  
+--order database by id  
+select id,name, rating from goods 
+  order by id ;
+  
+--group name and quantities  
+select name, quantity from goods 
+  group by name;
+  
+--display total price of goods  
+select sum(price) from goods;
