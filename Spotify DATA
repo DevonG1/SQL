@@ -1,0 +1,36 @@
+
+SELECT artist_name, track_name, AVG(danceability)
+FROM BIT_DB.Spotify_Data;
+
+*/ Top popular artists/*
+SELECT artist_name, popularity FROM BIT_DB.Spotify_Data
+ORDER BY popularity DESC
+LIMIT 10;
+
+*/ Longest song duration?8
+SELECT artist_name, duration_ms AS Song_Duration
+FROM BIT_DB.Spotify_Data
+ORDER BY Song_Duration DESC
+LIMIT 1;
+
+*/ Top popular tracks/*
+SELECT track_name, popularity, AVG(danceability)
+FROM BIT_DB.Spotify_Data
+LIMIT 10;
+
+*/ Average popularity, danceability & energy by artists /*
+SELECT artist_name, track_name, avg(popularity), avg(danceability), avg(energy)
+FROM BIT_DB.Spotify_Data
+GROUP BY artist_name, track_name
+ORDER BY popularity DESC;
+
+*/ CTE for Top artists by popularity /*
+WITH popularity_AVG_CTE AS (
+SELECT artist_name, AVG(popularity) AS Popularity
+FROM BIT_DB.Spotify_Data
+GROUP BY artist_name)
+
+SELECT artist_name, Popularity, 'Top Star' AS Tag
+FROM BIT_DB.Spotify_Data
+WHERE Popularity > '90'
+ORDER BY Popularity DESC;
