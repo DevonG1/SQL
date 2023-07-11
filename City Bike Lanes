@@ -1,0 +1,39 @@
+SELECT * FROM CityBikeLanes LIMIT 10;
+
+SELECT * FROM CityBikeLanes WHERE street='Walnut';
+
+SELECT street, AVG(safety_rating) as 'rating'
+FROM citybikelanes
+GROUP BY street
+ORDER BY rating DESC;
+
+
+
+WITH CTE_Safety_Rating AS (
+SELECT street, AVG(safety_rating) AS 'rating'
+FROM CityBikeLanes
+GROUP BY street)
+
+SELECT street, rating, 'safe lane' AS 'label'
+FROM CTE_Safety_Rating
+WHERE rating >= 4
+ORDER BY rating DESC;
+
+SELECT street, safety_rating, AVG(safety_rating)
+FROM CityBikeLanes
+WHERE street='2nd'
+GROUP BY street, safety_rating;
+
+SELECT street, safety_rating,
+AVG(safety_rating) OVER (PARTITION BY street) as "Average_safety_rating"
+FROM CityBikeLanes;
+
+SELECT street, safety_rating,
+AVG(safety_rating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE
+    WHEN AVG(safety_rating) OVER (PARTITION BY street) >= 4 THEN 'Leave_As-Is'
+    WHEN AVG(safety_rating) OVER (PARTITION BY street) < 2.5 THEN 'Remove'
+    ELSE 'Improvements Needed'
+END AS "Recommendation"
+FROM CityBikeLanes
+ORDER BY safety_rating DESC;
