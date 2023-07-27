@@ -1,30 +1,38 @@
+
+#1 Ordered customers in the USA by their ID and name
 SELECT CustomerID, FirstName, LastName, Country
 FROM customers
 WHERE Country <> 'USA'
 ORDER BY Country;
 
+#2 Ordered customers in Brazil by their ID and name
 SELECT CustomerID, FirstName, LastName, Country
 FROM customers
 WHERE Country = 'Brazil';
 
+#3 Shows customers that were invoiced in Brazil
 SELECT customers.CustomerId, invoices.InvoiceId, customers.FirstName, customers.LastName, invoices.InvoiceDate, invoices.BillingCountry
 FROM customers
 LEFT JOIN invoices ON customers.CustomerId = invoices.CustomerId
 WHERE BillingCountry = 'Brazil';
 
+#4 Shows all sales agents
 SELECT EmployeeId, FirstName, LastName, HireDate, Title 
 FROM employees
 WHERE Title LIKE '%Sales Supp%';
 
+#5 Shows all Invoices per country
 SELECT  BillingCountry, SUM(Total)
 FROM invoices
 GROUP BY BillingCountry;
 
+#6 Shows sales agents and their invoices to collect
 SELECT employees.FirstName, employees.LastName, invoices.InvoiceId
 FROM employees
 JOIN invoices ON invoices.customerID = customers.CustomerId
 JOIN customers ON customers.SupportRepId = employees.EmployeeId;
 
+#7 Shows sales agents and their invoices related to customers
 SELECT invoices.Total, customers.FirstName, customers.LastName, customers.Country, employees.FirstName AS SalesAgentF, employees.LastName AS SalesAgentL
 FROM employees
 JOIN invoices ON invoices.customerID = customers.CustomerId
@@ -32,19 +40,22 @@ JOIN customers ON customers.SupportRepId = employees.EmployeeId
 GROUP BY customers.LastName
 ORDER BY Total DESC;
 
+#8 Shows invoices in 2009
 SELECT invoices.Total, invoices.InvoiceDate
 FROM invoices
 WHERE InvoiceDate LIKE '%2009%';
 
+#9 Shows prices and amount sold for each product
 SELECT SUM(invoice_items.Quantity) AS Quantity, SUM(invoice_items.UnitPrice) AS Total
 FROM invoice_items
 JOIN invoices ON invoice_items.InvoiceId = invoices.InvoiceId;
 
+#10 Shows what tracks are sold
 SELECT tracks.Name, invoice_items.InvoiceLineId, 
 FROM tracks
 JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId;
 
-
+#11
 SELECT artists.Name, tracks.Name AS Track, invoice_items.InvoiceLineId
 FROM tracks
 JOIN invoice_items ON invoice_items.TrackId = tracks.TrackId
@@ -52,6 +63,7 @@ JOIN albums ON albums.AlbumId = tracks.AlbumId
 JOIN artists ON artists.ArtistId = albums.ArtistId
 ORDER BY artists.Name;
 
+#12 Shows the most popular track, album and genre 
 SELECT tracks.Name AS Track, albums.Title AS Album, media_types.Name AS Media_Type, genres.Name AS Genre
 FROM tracks
 JOIN albums ON albums.AlbumId = tracks.AlbumId
@@ -59,7 +71,7 @@ JOIN media_types ON media_types.MediaTypeId = tracks.MediaTypeId
 JOIN genres ON genres.GenreId = tracks.GenreId
 ORDER BY Media_Type;
 
-
+#13 Shows the amount of total sales per agent
 SELECT employees.EmployeeId, employees.FirstName, employees.LastName, ROUND(SUM(Invoices.Total), 2) AS 'Total_Sales'
 FROM employees
 JOIN customers ON customers.SupportRepId = employees.EmployeeId
