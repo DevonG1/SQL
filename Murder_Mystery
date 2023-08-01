@@ -1,0 +1,64 @@
+SELECT * FROM crime_scene_report;
+SELECT * FROM drivers_license;
+SELECT * FROM facebook_event_checkin;
+SELECT * FROM get_fit_now_check_in;
+SELECT * FROM get_fit_now_member;
+SELECT * FROM income;
+SELECT * FROM interview;
+SELECT * FROM person;
+SELECT * FROM solution;
+
+SELECT date, type, city
+FROM crime_scene_report
+WHERE date = "20180115" 
+    AND type = "murder"
+    AND city = "SQL City";
+    
+SELECT * FROM facebook_event_checkin
+WHERE date = "20180115"; 
+
+SELECT facebook_event_checkin.person_id, facebook_event_checkin.event_name, facebook_event_checkin.date, interview.transcript
+FROM facebook_event_checkin
+JOIN interview ON facebook_event_checkin.person_id = interview.person_id
+WHERE facebook_event_checkin.date = "20180115"
+GROUP BY facebook_event_checkin.person_id;
+
+SELECT * FROM get_fit_now_member
+WHERE id LIKE "%48Z%"
+AND membership_status = "gold";
+
+SELECT * FROM get_fit_now_check_in
+JOIN get_fit_now_member ON get_fit_now_check_in.membership_id = get_fit_now_member.id
+WHERE check_in_date = "20180109"
+AND name = "Jeremy Bowers";
+
+SELECT * FROM drivers_license
+WHERE plate_number LIKE "%H42W%"
+AND id = "423327";
+
+SELECT person.id AS ID, person.name AS Name, person.license_id AS License_Number
+FROM person
+JOIN drivers_license ON person.license_id = drivers_license.id
+WHERE drivers_license.plate_number LIKE "%H42W%";
+
+INSERT INTO solution VALUES (1, "Jeremy Bowers");
+SELECT value FROM solution;
+
+
+
+
+SELECT * FROM facebook_event_checkin
+JOIN interview ON facebook_event_checkin.person_id = interview.person_id
+JOIN get_fit_now_member ON get_fit_now_member.person_id = interview.person_id
+WHERE name = "Jeremy Bowers";
+
+SELECT * FROM facebook_event_checkin
+WHERE event_name LIKE "%symphony%"
+AND date LIKE "%2017%";
+
+SELECT * FROM drivers_license
+JOIN person ON drivers_license.id = person.license_id
+WHERE hair_color = "red" AND gender = "female" AND car_make = "Tesla";
+
+INSERT INTO solution VALUES (1, "Miranda Priestly");
+SELECT value FROM solution;
